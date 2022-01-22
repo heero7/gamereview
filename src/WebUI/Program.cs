@@ -1,5 +1,4 @@
 using Application.Common.Interfaces;
-using Application.Common.Interfaces.Repository;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllers();
 
 builder.Services.AddDbContext<GameReviewDbContext>(options =>
 {
@@ -35,5 +35,5 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
+app.MapControllerRoute("default","{controller=Home}/{action=Index}/{id?}");
 app.Run();
