@@ -1,8 +1,11 @@
+using Application.Common.Interfaces.Service;
+using AutoMapper;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Reviews.Commands;
 
-public class CreateReviewCommand : IRequest
+public class CreateReviewCommand : IRequest<int>
 {
     public string Title { get; set; } = string.Empty;
     public string Author { get; set; } = string.Empty;
@@ -11,16 +14,21 @@ public class CreateReviewCommand : IRequest
     public int GameId { get; set; }
 }
 
-public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand>
+public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, int>
 {
-    public Task<Unit> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+    private IReviewService _reviewService;
+    private IMapper _mapper;
+
+    public CreateReviewCommandHandler(IReviewService reviewService, IMapper mapper)
     {
-        /*
-         * ReviewService.AddReview(gameId, review);
-         * 1. Validate review data
-         * 2. Send id and review data to store in db
-         * 3. Get id of review after success
-         */
-        throw new NotImplementedException();
+        _reviewService = reviewService;
+        _mapper = mapper;
+    }
+    
+    public async Task<int> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+    {
+        var review = _mapper.Map<Review>(request);
+        var createdReview= await _reviewService.Add(review);
+        return createdReview.Id;
     }
 }

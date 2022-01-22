@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Interfaces.Repository;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,9 +38,8 @@ public class GameReviewDbContext : DbContext, IGameReviewDbContext
         base.OnModelCreating(modelBuilder);
     }
 
-
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    public new Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
