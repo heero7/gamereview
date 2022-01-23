@@ -1,5 +1,8 @@
+using Application;
 using Application.Common.Interfaces;
+using Infrastructure;
 using Infrastructure.Persistence;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
+
+// For Swagger Generation.
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<GameReviewDbContext>(options =>
 {
@@ -16,6 +23,11 @@ builder.Services.AddDbContext<GameReviewDbContext>(options =>
 });
 
 builder.Services.AddScoped<IGameReviewDbContext>(provider => provider.GetRequiredService<GameReviewDbContext>());
+
+// Dependencies from other layers
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
+
 
 var app = builder.Build();
 
@@ -27,6 +39,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    // Configure swagger only on development
+    app.UseSwagger();
+}
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -36,4 +55,5 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllerRoute("default","{controller=Home}/{action=Index}/{id?}");
+app.UseSwaggerUI();
 app.Run();

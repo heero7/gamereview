@@ -1,15 +1,17 @@
 using Application.Games.Commands;
 using Application.Games.Queries;
+using Application.Genres.Commands;
 using AutoMapper;
 using Domain.Entities;
 
 namespace Application.Common.Mapping;
 
-public class AutoMapperConfiguration : Profile
+public class GameReviewAutoMapperConfiguration : Profile
 {
-    public AutoMapperConfiguration()
+    public GameReviewAutoMapperConfiguration()
     {
-        CreateMap<CreateGameCommand, Game>().ReverseMap();
+        CreateMap<CreateGameCommand, Game>();
+        CreateMap<CreateGenreCommand, Genre>();
         CreateMap<Game, GameViewModel>();
         CreateMap<IEnumerable<Game>, GamesByCategoryViewModel>()
             .ForMember(src => src.GamesByCategory, 
