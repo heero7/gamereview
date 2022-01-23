@@ -28,7 +28,7 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, i
     public async Task<int> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
     {
         var review = _mapper.Map<Review>(request);
-        var createdReview= await _reviewService.Add(review);
+        var createdReview = await _reviewService.Add(review);
         return createdReview.Id;
     }
 }
