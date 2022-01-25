@@ -9,7 +9,7 @@ public class CreateGameCommand : IRequest<int>
 {
     public string Name { get; set; }
     public int GenreId { get; set; }
-    public DateTime ReleaseDate { get; set; }
+    public DateOnly ReleaseDate { get; set; }
 }
 
 public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, int>

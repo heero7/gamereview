@@ -4,12 +4,17 @@ using Infrastructure;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WebUI.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(jsonOptions =>
+{
+    // To allow DateOnly type to be serialized/deserialized
+    jsonOptions.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+});
 
 // For Swagger Generation.
 builder.Services.AddEndpointsApiExplorer();
@@ -27,7 +32,6 @@ builder.Services.AddScoped<IGameReviewDbContext>(provider => provider.GetRequire
 // Dependencies from other layers
 builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
-
 
 var app = builder.Build();
 

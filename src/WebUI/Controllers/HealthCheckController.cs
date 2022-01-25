@@ -11,11 +11,4 @@ public class HealthCheckController : GameReviewBaseController
     {
         return "We're doing well!";
     }
-
-    [Route("Check/")]
-    [HttpGet]
-    public string Check()
-    {
-        return "Good";
-    }
 }

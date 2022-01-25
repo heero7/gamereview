@@ -14,7 +14,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 
         builder.Property(g => g.Name).IsRequired().HasColumnType("varchar(150)");
 
-        builder.Property(g => g.ReleaseDate).IsRequired();
+        builder.Property(g => g.ReleasedDate).IsRequired().HasColumnType("date");
 
         builder.Property(g => g.GenreId).IsRequired();
 
